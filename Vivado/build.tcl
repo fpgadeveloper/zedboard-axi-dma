@@ -3,8 +3,11 @@
 #
 #*****************************************************************************************
 
-# Set the reference directory to where the script is
-set origin_dir [file dirname [info script]]
+# Set the reference directory for source file relative paths (by default the value is script directory path)
+set origin_dir "."
+
+# Set the directory path for the original project from where this script was exported
+set orig_proj_dir "[file normalize "$origin_dir/zedboard_axi_dma"]"
 
 # Create project
 create_project zedboard_axi_dma $origin_dir/zedboard_axi_dma
@@ -23,6 +26,7 @@ set_property "target_language" "VHDL" $obj
 if {[string equal [get_filesets -quiet sources_1] ""]} {
   create_fileset -srcset sources_1
 }
+
 
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]

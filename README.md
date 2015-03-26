@@ -5,12 +5,12 @@ Demonstration project for the AXI DMA Engine on the ZedBoard
 
 ### Description
 
-This project demonstrates the use of the AXI DMA Engine IP for transfering
+This project demonstrates the use of the AXI DMA Engine IP for transferring
 data between a custom IP block and memory.
 
 ### Requirements
 
-* Vivado 2014.2
+* Vivado 2014.4
 * MicroZed
 
 ### License
