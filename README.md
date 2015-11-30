@@ -10,7 +10,7 @@ data between a custom IP block and memory.
 
 ### Requirements
 
-* Vivado 2015.3
+* Vivado 2015.4
 * MicroZed
 
 ### License
