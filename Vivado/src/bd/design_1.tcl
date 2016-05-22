@@ -1,16 +1,6 @@
 ################################################################
-# Check if script is running in correct Vivado version.
+# Block diagram build script
 ################################################################
-set scripts_vivado_version 2016.1
-set current_vivado_version [version -short]
-
-if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
-   puts ""
-   puts "ERROR: This script was generated using Vivado <$scripts_vivado_version> and is being run in <$current_vivado_version> of Vivado. Please run the script in Vivado <$scripts_vivado_version> then open the design in Vivado <$current_vivado_version>. Upgrade the design by running \"Tools => Report => Report IP Status...\", then run write_bd_tcl to create an updated script."
-
-   return 1
-}
-
 set design_name design_1
 
 # CHECKING IF PROJECT EXISTS
@@ -50,7 +40,7 @@ current_bd_instance $parentObj
 
 # Add the Processor System and apply board preset
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7:5.5 processing_system7_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7 processing_system7_0
 endgroup
 apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {make_external "FIXED_IO, DDR" apply_board_preset "1" Master "Disable" Slave "Disable" }  [get_bd_cells processing_system7_0]
 
@@ -64,7 +54,7 @@ connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins process
 
 # Add the concat for the interrupts
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat:2.1 xlconcat_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat xlconcat_0
 endgroup
 connect_bd_net [get_bd_pins xlconcat_0/dout] [get_bd_pins processing_system7_0/IRQ_F2P]
 startgroup
@@ -73,7 +63,7 @@ endgroup
 
 # Add the AXI DMA and run connection automation
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dma:7.1 axi_dma_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dma axi_dma_0
 endgroup
 startgroup
 set_property -dict [list CONFIG.c_sg_include_stscntrl_strm {0}] [get_bd_cells axi_dma_0]
@@ -87,7 +77,7 @@ endgroup
 
 # Add the AXI-Streaming Data FIFO
 startgroup
-create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo:1.1 axis_data_fifo_0
+create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo axis_data_fifo_0
 endgroup
 connect_bd_intf_net [get_bd_intf_pins axi_dma_0/M_AXIS_MM2S] [get_bd_intf_pins axis_data_fifo_0/S_AXIS]
 connect_bd_intf_net [get_bd_intf_pins axis_data_fifo_0/M_AXIS] [get_bd_intf_pins axi_dma_0/S_AXIS_S2MM]
