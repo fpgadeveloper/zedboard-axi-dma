@@ -10,8 +10,8 @@ data between a custom IP block and memory.
 
 ### Requirements
 
-* Vivado 2016.1
-* MicroZed
+* Vivado 2016.2
+* ZedBoard
 
 ### License
 
