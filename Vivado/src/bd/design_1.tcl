@@ -1,7 +1,6 @@
 ################################################################
 # Block diagram build script
 ################################################################
-set design_name design_1
 
 # CHECKING IF PROJECT EXISTS
 if { [get_projects -quiet] eq "" } {
@@ -39,46 +38,30 @@ set oldCurInst [current_bd_instance .]
 current_bd_instance $parentObj
 
 # Add the Processor System and apply board preset
-startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7 processing_system7_0
-endgroup
 apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 -config {make_external "FIXED_IO, DDR" apply_board_preset "1" Master "Disable" Slave "Disable" }  [get_bd_cells processing_system7_0]
 
 # Configure the PS: Generate 100MHz clock, Enable GP0 and HP0, Enable interrupts
-startgroup
 set_property -dict [list CONFIG.PCW_USE_S_AXI_HP0 {1} CONFIG.PCW_USE_M_AXI_GP0 {1} CONFIG.PCW_USE_FABRIC_INTERRUPT {1} CONFIG.PCW_IRQ_F2P_INTR {1}] [get_bd_cells processing_system7_0]
-endgroup
 
 # Connect the FCLK_CLK0 to the PS GP0
 connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins processing_system7_0/M_AXI_GP0_ACLK]
 
 # Add the concat for the interrupts
-startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:xlconcat xlconcat_0
-endgroup
 connect_bd_net [get_bd_pins xlconcat_0/dout] [get_bd_pins processing_system7_0/IRQ_F2P]
-startgroup
 set_property -dict [list CONFIG.NUM_PORTS {2}] [get_bd_cells xlconcat_0]
-endgroup
 
 # Add the AXI DMA and run connection automation
-startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:axi_dma axi_dma_0
-endgroup
-startgroup
 set_property -dict [list CONFIG.c_sg_include_stscntrl_strm {0}] [get_bd_cells axi_dma_0]
-endgroup
-startgroup
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/processing_system7_0/M_AXI_GP0" Clk "Auto" }  [get_bd_intf_pins axi_dma_0/S_AXI_LITE]
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Master "/axi_dma_0/M_AXI_SG" Clk "Auto" }  [get_bd_intf_pins processing_system7_0/S_AXI_HP0]
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Slave "/processing_system7_0/S_AXI_HP0" Clk "Auto" }  [get_bd_intf_pins axi_dma_0/M_AXI_MM2S]
 apply_bd_automation -rule xilinx.com:bd_rule:axi4 -config {Slave "/processing_system7_0/S_AXI_HP0" Clk "Auto" }  [get_bd_intf_pins axi_dma_0/M_AXI_S2MM]
-endgroup
 
 # Add the AXI-Streaming Data FIFO
-startgroup
 create_bd_cell -type ip -vlnv xilinx.com:ip:axis_data_fifo axis_data_fifo_0
-endgroup
 connect_bd_intf_net [get_bd_intf_pins axi_dma_0/M_AXIS_MM2S] [get_bd_intf_pins axis_data_fifo_0/S_AXIS]
 connect_bd_intf_net [get_bd_intf_pins axis_data_fifo_0/M_AXIS] [get_bd_intf_pins axi_dma_0/S_AXIS_S2MM]
 connect_bd_net -net [get_bd_nets rst_ps7_0_100M_peripheral_aresetn] [get_bd_pins axis_data_fifo_0/s_axis_aresetn] [get_bd_pins rst_ps7_0_100M/peripheral_aresetn]
