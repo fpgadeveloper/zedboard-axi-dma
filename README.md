@@ -13,7 +13,7 @@ http://www.fpgadeveloper.com/2014/08/using-the-axi-dma-in-vivado.html
 
 ## Requirements
 
-* Vivado 2017.1
+* Vivado 2017.2
 * [ZedBoard](http://zedboard.org "ZedBoard")
 
 ## Build instructions
