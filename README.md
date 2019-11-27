@@ -5,11 +5,11 @@ Demonstration project for the AXI DMA Engine on the ZedBoard
 
 ## Requirements
 
-This project is designed for Vivado 2018.2. If you are using an older version of Vivado, then you *MUST* use an older version
+This project is designed for Vivado 2019.2. If you are using an older version of Vivado, then you *MUST* use an older version
 of this repository. Refer to the [list of commits](https://github.com/fpgadeveloper/zedboard-axi-dma/commits/master "list of commits")
 to find links to the older versions of this repository.
 
-* Vivado 2018.2
+* Vivado 2019.2
 * [ZedBoard](http://zedboard.org "ZedBoard")
 
 ## Description
