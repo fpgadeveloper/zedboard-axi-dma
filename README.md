@@ -10,6 +10,7 @@ of this repository. Refer to the [list of commits](https://github.com/fpgadevelo
 to find links to the older versions of this repository.
 
 * Vivado 2019.2
+* Vitis 2019.2
 * [ZedBoard](http://zedboard.org "ZedBoard")
 
 ## Description
@@ -35,23 +36,22 @@ To use the sources in this repository, please follow these steps:
 5. Click Generate bitstream.
 6. When the bitstream is successfully generated, select `File->Export->Export Hardware`.
    In the window that opens, tick "Include bitstream" and "Local to project".
-7. Return to Windows Explorer and browse to the SDK directory in the repo.
-8. Double click the `build-sdk.bat` batch file. The batch file will run the
-   `build-sdk.tcl` script and build the SDK workspace containing the hardware
+7. Return to Windows Explorer and browse to the Vitis directory in the repo.
+8. Double click the `build-vitis.bat` batch file. The batch file will run the
+   `build-vitis.tcl` script and build the Vitis workspace containing the hardware
    design and the software application.
-9. Run Xilinx SDK (DO NOT use the Launch SDK option from Vivado) and select the workspace to be the SDK directory of the repo.
-10. Select `Project->Build automatically`.
-11. Connect and power up the hardware.
-12. Open a Putty terminal to view the UART output.
-13. In the SDK, select `Xilinx Tools->Program FPGA`.
-14. Right-click on the application and select `Run As->Launch on Hardware (System Debugger)`
+9. Run Vitis and select the workspace to be the Vitis directory of the repo.
+10. Connect and power up the hardware.
+11. Open a Putty terminal to view the UART output.
+12. In the Vitis, select `Xilinx Tools->Program FPGA`.
+13. Click on the application and click the Run icon from the toolbar.
 
 This project uses an example application for the AXI DMA that is located here:
 
-`C:\Xilinx\SDK\<version>\data\embeddedsw\XilinxProcessorIPLib\drivers\axidma_v<ver>\examples\xaxidma_example_sg_poll.c`
+`C:\Xilinx\Vitis\<version>\data\embeddedsw\XilinxProcessorIPLib\drivers\axidma_v<ver>\examples\xaxidma_example_sg_poll.c`
 
-The SDK build script creates an application and copies that source file into the application.
-See the readme in the SDK directory for more information.
+The Vitis build script creates an application and copies that source file into the application.
+See the readme in the Vitis directory for more information.
 
 ## Troubleshooting
 
