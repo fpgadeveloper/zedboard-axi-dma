@@ -1,0 +1,9 @@
+Vivado/.Xil/
+*.log
+*.jou
+Vivado/*_axi_dma/
+Vitis/.*/
+Vitis/.analytics
+Vitis/boot/
+Vitis/*_axi_dma*/
+Vitis/*_test_app*/
